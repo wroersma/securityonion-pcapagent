@@ -1,2 +1,3 @@
 # securityonion-pcapagent
-Test
+
+Requires Python 3.7
