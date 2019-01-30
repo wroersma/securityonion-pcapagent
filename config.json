@@ -1,0 +1,6 @@
+{
+  "master": "master",
+  "logFile": "somefile.log",
+  "logLevel": "logging.info",
+  "pcapPath": "."
+}
