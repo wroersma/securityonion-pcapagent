@@ -1,6 +1,8 @@
+import ipaddress
 from app import app
 from flask import jsonify
 from flask import render_template
+from flask import request
 from app.forms import SearchForm
 
 import logging, sys, json, os, glob, time
@@ -55,6 +57,14 @@ def get_oldest_pcapfile():
 
     return results
 
+def validateip(ip):
+    try:
+        result = ipaddress.ip_address(ip)
+        return result
+    except ValueError:
+        print 'Invalid IP Address'
+
+
 
 @app.route('/')
 def hello_world():
@@ -69,6 +79,25 @@ def get_status():
 def search():
     form = SearchForm()
     return render_template('search.html', title='Search Pcap', form=form)
+
+@app.route('/searchapi', methods=['GET','POST'])
+def searchapi():
+    if 'bpf' in request.args:
+        bpf = str(request.args['bpf'])
+    else:
+        return "Error: This isn't the psychic friends network. I need a bpf"
+    if 'start' in request.args:
+        start = int(request.args['start'])
+    else:
+        return "Error: No start time provided. Please specify a start time."
+    if 'end' in request.args:
+        end = int(request.args['end'])
+    else:
+        return "Error: No end time specified. Plese specify an end time."
+
+
+
+
 
 
 if __name__ == '__main__':
