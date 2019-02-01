@@ -2,10 +2,22 @@
 
 {% block content %}
     <h1>Search PCAP</h1>
-    <form action="searchapi" method="post" novalidate>
+    <form action="" method="post" novalidate>
         <p>
-            {{ form.Source.label }}<br>
-            {{ form.bpf(size=64) }}
+            {{ form.src.label }}<br>
+            {{ form.src(size=64) }}
+        </p>
+        <p>
+            {{ form.dst.label }}<br>
+            {{ form.dst(size=64) }}
+        </p>
+        <p>
+            {{ form.srcport.label }}<br>
+            {{ form.srcport(size=64) }}
+        </p>
+        <p>
+            {{ form.dstport.label }}<br>
+            {{ form.dstport(size=64) }}
         </p>
         <p>
             {{ form.start.label }}<br>

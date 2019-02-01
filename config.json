@@ -1,6 +1,6 @@
 {
   "master": "master",
-  "logFile": "somefile.log",
-  "logLevel": "logging.info",
+  "logFile": "pcapserver.log",
+  "logLevel": "logging.debug",
   "pcapPath": "."
 }

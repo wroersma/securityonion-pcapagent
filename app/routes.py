@@ -4,14 +4,20 @@ from flask import jsonify
 from flask import render_template
 from flask import request
 from app.forms import SearchForm
+import sqlite3 as lite
 
-import logging, sys, json, os, glob, time
+import logging, sys, json, os, glob, time, datetime
 
 
 with open('config.json', 'r') as cfg:
     config = json.load(cfg)
 
-# logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
+logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
+
+# Create the database to store clients
+#db = lite.connect(config["sensorDB"])
+#dbe = db.cursor()
+
 
 STATUS = "AVAILABLE"
 
@@ -62,7 +68,7 @@ def validateip(ip):
         result = ipaddress.ip_address(ip)
         return result
     except ValueError:
-        print 'Invalid IP Address'
+        return False
 
 
 
@@ -75,17 +81,25 @@ def hello_world():
 def get_status():
     return get_oldest_pcapfile()
 
-@app.route('/search')
+@app.route('/search', methods=['GET','POST'])
 def search():
     form = SearchForm()
+    if form.validate_on_submit():
+        src = string(request.args[src])
+        return '''<h1>The Source is {}</h1>'''.format(src)
+
     return render_template('search.html', title='Search Pcap', form=form)
 
 @app.route('/searchapi', methods=['GET','POST'])
 def searchapi():
-    if 'bpf' in request.args:
-        bpf = str(request.args['bpf'])
+    if 'src' in request.args:
+        srcip = str(request.args['src'])
+        if validateip(srcip) is False:
+            return "Error: I need valid source address. the word any is acceptable"
+        else:
+            return "%s is a valid IP address" % validateip(srcip)
     else:
-        return "Error: This isn't the psychic friends network. I need a bpf"
+        return "Error: I need a source address. the word any is acceptable"
     if 'start' in request.args:
         start = int(request.args['start'])
     else:

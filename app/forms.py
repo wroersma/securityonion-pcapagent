@@ -3,7 +3,10 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateT
 from wtforms.validators import DataRequired
 
 class SearchForm(FlaskForm):
-    bpf = StringField('bpf', validators=[DataRequired()])
+    src = StringField('src', validators=[DataRequired()])
+    dst = StringField('dst', validators=[DataRequired()])
+    srcport = StringField('srcport', validators=[DataRequired()])
+    dstport = StringField('dstport', validators=[DataRequired()])
     start = DateTimeField('start', validators=[DataRequired()])
     end = DateTimeField('end', validators=[DataRequired()])
     submit = SubmitField('Search')

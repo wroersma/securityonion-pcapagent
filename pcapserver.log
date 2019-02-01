@@ -1,0 +1,25 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 12:57:14] "GET /searchapi?src=10.1.2.3 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 12:57:24] "GET /searchapi?src=derp HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ERROR:flask.app:Exception on /searchapi [GET]
+Traceback (most recent call last):
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py", line 97, in searchapi
+    if 'None' in validateip(srcip):
+TypeError: argument of type 'NoneType' is not iterable
+INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 13:01:48] "GET /searchapi?src=derp HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 14:08:42] "GET /searchapi?src=derp HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 14:08:59] "GET /searchapi?src=1.2.3.4 HTTP/1.1" 200 -
