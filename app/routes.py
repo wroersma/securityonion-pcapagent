@@ -4,6 +4,7 @@ from flask import jsonify
 from flask import render_template
 from flask import request
 from app.forms import SearchForm
+from flask_restful import reqparse
 import sqlite3 as lite
 
 import logging, sys, json, os, glob, time, datetime
@@ -70,6 +71,12 @@ def validateip(ip):
     except ValueError:
         return False
 
+def converttime(time):
+    try:
+        return blah
+    except:
+        return False
+
 
 
 @app.route('/')
@@ -91,28 +98,24 @@ def search():
     return render_template('search.html', title='Search Pcap', form=form)
 
 @app.route('/searchapi', methods=['GET','POST'])
-def searchapi():
-    if 'src' in request.args:
-        srcip = str(request.args['src'])
-        if validateip(srcip) is False:
-            return "Error: I need valid source address. the word any is acceptable"
-        else:
-            return "%s is a valid IP address" % validateip(srcip)
-    else:
-        return "Error: I need a source address. the word any is acceptable"
-    if 'start' in request.args:
-        start = int(request.args['start'])
-    else:
-        return "Error: No start time provided. Please specify a start time."
-    if 'end' in request.args:
-        end = int(request.args['end'])
-    else:
-        return "Error: No end time specified. Plese specify an end time."
+def test():
+    parser = reqparse.RequestParser()
+    parser.add_argument('src', required=True, help="I need a source")
+    parser.add_argument('dst', required=True, help="I need a source")
+    parser.add_argument('srcport', required=True, help="I need a source")
+    parser.add_argument('dstport', required=True, help="I need a source")
+    parser.add_argument('start', required=True, help="I need a source")
+    parser.add_argument('end', required=True, help="I need a source")
+    parser.add_argument('sensor', required=True, help="I need a source")
 
 
+    args = parser.parse_args()
+    if validateip(args['src']) is False:
+        return "%s is not a valid IP" % args['src']
 
+    stenoquery = "sensor %s before %s and after %s and host %s and host %s and port %s and port %s" % (args['sensor'], args['end'], args['start'], args['src'], args['dst'], args['srcport'], args['dstport'])
 
-
+    return stenoquery
 
 if __name__ == '__main__':
     app.run()

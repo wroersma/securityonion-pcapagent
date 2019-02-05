@@ -23,3 +23,129 @@ INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 13:01:48] "GET /searchapi?src=derp HTTP
 INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 14:08:42] "GET /searchapi?src=derp HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [01/Feb/2019 14:08:59] "GET /searchapi?src=1.2.3.4 HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ERROR:flask.app:Exception on /searchapi [GET]
+Traceback (most recent call last):
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py", line 126, in searchapi
+    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (endtime, stime, srcip, dstip, srcpt, dstip)
+UnboundLocalError: local variable 'endtime' referenced before assignment
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:18:39] "GET /searchapi?src=1.2.3.4 HTTP/1.1" 500 -
+ERROR:flask.app:Exception on /searchapi [GET]
+Traceback (most recent call last):
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py", line 126, in searchapi
+    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (endtime, stime, srcip, dstip, srcpt, dstip)
+UnboundLocalError: local variable 'endtime' referenced before assignment
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:18:45] "GET /searchapi?src=1.2.3.4 HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:19:35] "GET /searchapi?src=1.2.3.4&dst=2.3.4&srcport=234&dstport=1234$start=234235&end=3245 HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:22:33] "GET /searchapi?src=1.2.3.4&dst=2.3.4&srcport=234&dstport=1234$start=234235&end=3245 HTTP/1.1" 200 -
+ERROR:flask.app:Exception on /searchapi [GET]
+Traceback (most recent call last):
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py", line 123, in searchapi
+    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (endtime, stime, srcip, dstip, srcpt, dstip)
+UnboundLocalError: local variable 'endtime' referenced before assignment
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:22:59] "GET /searchapi?src=1.2.3.4&dst=2.3.4.5 HTTP/1.1" 500 -
+ERROR:flask.app:Exception on /searchapi [GET]
+Traceback (most recent call last):
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/mreeves/Projects/securityonion-pcapagent/venv/lib/python3.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py", line 115, in searchapi
+    dstprt = int(request.args['dstport'])
+ValueError: invalid literal for int() with base 10: '1234$start=234235'
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:23:09] "GET /searchapi?src=1.2.3.4&dst=2.3.4.5&srcport=234&dstport=1234$start=234235&end=3245 HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Debugger PIN: 309-126-069
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?src=1.2.3.4&dst=2.3.4.5&srcport=234&dstport=1234$start=234235&end=3245 HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:04] "GET /searchapi?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:25:21] "GET /searchapi?src=1.2.3.4&dst=2.3.4.5&srcport=234&dstport=1234&start=234235&end=3245 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [04/Feb/2019 20:31:15] "GET /searchapi?src=1.2.3.4&dst=2.3.4.5&srcport=234&dstport=1234&start=234235&end=3245 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:14] "GET /searchapi?src=1.2.3.4 HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:14] "GET /searchapi?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:14] "GET /searchapi?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:14] "GET /searchapi?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:14] "GET /searchapi?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:14] "GET /searchapi?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?src=1.2.3.4 HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:29:30] "GET /test?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:30:11] "GET /test?src=1.2.3.4 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:30:16] "GET /test?src=fdsaf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:31:11] "GET /search HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:31:14] "GET /test HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:31:22] "GET /test?blah-1 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:31:28] "GET /test?blah=1 HTTP/1.1" 400 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:39:02] "GET /test?src=fdsaf HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:39:09] "GET /test?src=1.2.3.4 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:40:12] "GET /test?sensor=centossensor&src=1.2.3.4&dst=2.3.4.5&srcport=23&dstport=3214&start=1&end=2 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/__init__.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:42:22] "GET /test?sensor=centossensor&src=1.2.3.4&dst=2.3.4.5&srcport=23&dstport=3214&start=1&end=2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:42:27] "GET /test?sensor=centossensor&src=1.2.3.4&dst=2.3.4.5&srcport=23&dstport=3214&start=1 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [05/Feb/2019 15:43:12] "GET /test?sensor=centossensor&src=asdfsdaf&dst=2.3.4.5&srcport=23&dstport=3214&start=1&end=2 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
