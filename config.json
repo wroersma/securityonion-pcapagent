@@ -2,5 +2,6 @@
   "master": "master",
   "logFile": "pcapserver.log",
   "logLevel": "logging.debug",
-  "pcapPath": "."
+  "pcapPath": ".",
+  "database": "pcapmaster.db"
 }

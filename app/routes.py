@@ -5,7 +5,7 @@ from flask import render_template
 from flask import request
 from app.forms import SearchForm
 from flask_restful import reqparse
-import sqlite3 as lite
+import sqlite3
 
 import logging, sys, json, os, glob, time, datetime
 
@@ -16,8 +16,12 @@ with open('config.json', 'r') as cfg:
 logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
 
 # Create the database to store clients
-#db = lite.connect(config["sensorDB"])
-#dbe = db.cursor()
+db = sqlite3.connect(config["sensorDB"])
+dbe = db.cursor()
+
+sql_create_sensors_table = """ CREATE TABLE IF NOT EXISTS sensors ( id string PRIMARY KEY,"""
+
+sql_create_tasks_table = """ CREATE TABLE IF NOT EXISTS jobs ( jobid int PRIMARY KEY AUTOINCREMENT, query string"""
 
 
 STATUS = "AVAILABLE"
@@ -75,7 +79,13 @@ def converttime(time):
     try:
         return blah
     except:
-        return False
+        return Falsea
+
+def addjob(sensor,stenoquery):
+    jobid =
+
+# See if I know about this sensor before I try and do something.
+def checksensor(sensor):
 
 
 
@@ -97,8 +107,11 @@ def search():
 
     return render_template('search.html', title='Search Pcap', form=form)
 
+# Give it a conn id and let it do its thing.
+@app.route('/searchbycid')
+
 @app.route('/searchapi', methods=['GET','POST'])
-def test():
+def searchapi():
     parser = reqparse.RequestParser()
     parser.add_argument('src', required=True, help="I need a source")
     parser.add_argument('dst', required=True, help="I need a source")
@@ -113,9 +126,17 @@ def test():
     if validateip(args['src']) is False:
         return "%s is not a valid IP" % args['src']
 
-    stenoquery = "sensor %s before %s and after %s and host %s and host %s and port %s and port %s" % (args['sensor'], args['end'], args['start'], args['src'], args['dst'], args['srcport'], args['dstport'])
+    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (args['end'], args['start'], args['src'], args['dst'], args['srcport'], args['dstport'])
+    sensor = checksensor(args['sensor'])
 
-    return stenoquery
+    # Send the query and to the sensors queue
+    addjob(sensor,stenoquery)
+
+    return result
+
+# Have something to handle the delivery of the pcap
+@app.route('/uploadjob', methods=['POST'])
+def uploadjob():
 
 if __name__ == '__main__':
     app.run()
