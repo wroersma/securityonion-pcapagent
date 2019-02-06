@@ -17,14 +17,18 @@ logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
 
 # Create the database to store clients
 db = sqlite3.connect(config["sensorDB"])
-dbe = db.cursor()
+d = db.cursor()
 
-sql_create_sensors_table = """ CREATE TABLE IF NOT EXISTS sensors ( id string PRIMARY KEY,"""
+# Create Sensor Table
+try:
+    d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
 
-sql_create_tasks_table = """ CREATE TABLE IF NOT EXISTS jobs ( jobid int PRIMARY KEY AUTOINCREMENT, query string"""
+    # Create Jobs Table
+    d.execute('CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int')
+    d.commit()
+except:
+    print("Something is wrong with the taterbase")
 
-
-STATUS = "AVAILABLE"
 
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
@@ -82,12 +86,28 @@ def converttime(time):
         return Falsea
 
 def addjob(sensor,stenoquery):
-    jobid =
+    db = sqlite3.connect(config["sensorDB"])
+    d = db.cursor()
+
+    # Create Sensor Table
+    try:
+        d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
+
+        # Create Jobs Table
+        d.execute(
+            'CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int')
+        d.commit()
+    except:
+        print("Something is wrong with the taterbase")
+
+    # Add the job to the taterbase
+    try:
+        d.execute('INSERT INTO jobs (sensorid, query) VALUES ('%s', '%s')') % sensor, stenoquery
+    except:
+        print('Unable to add job')
 
 # See if I know about this sensor before I try and do something.
 def checksensor(sensor):
-
-
 
 @app.route('/')
 def hello_world():
@@ -133,6 +153,21 @@ def searchapi():
     addjob(sensor,stenoquery)
 
     return result
+
+# Sensor registration
+@app.route('/sensor', methods=['POST'])
+def sensor():
+    db = sqlite3.connect(config["sensorDB"])
+    d = db.cursor()
+
+    # Create Sensor Table if it is not there
+    try:
+        d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
+    except:
+        print('Something is broken')
+
+
+
 
 # Have something to handle the delivery of the pcap
 @app.route('/uploadjob', methods=['POST'])
