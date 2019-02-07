@@ -3,5 +3,5 @@
   "logFile": "pcapserver.log",
   "logLevel": "logging.debug",
   "pcapPath": ".",
-  "database": "pcapmaster.db"
+  "sensorDB": "pcapmaster.db"
 }

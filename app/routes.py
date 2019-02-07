@@ -19,17 +19,6 @@ logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
 db = sqlite3.connect(config["sensorDB"])
 d = db.cursor()
 
-# Create Sensor Table
-try:
-    d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
-
-    # Create Jobs Table
-    d.execute('CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int')
-    d.commit()
-except:
-    print("Something is wrong with the taterbase")
-
-
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
     ('days', 86400),    # 60 * 60 * 24
@@ -91,23 +80,28 @@ def addjob(sensor,stenoquery):
 
     # Create Sensor Table
     try:
-        d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
 
         # Create Jobs Table
-        d.execute(
-            'CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int')
-        d.commit()
+        d.execute('CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int')
+        db.commit()
+        print("I added the table if it wasn't there.")
     except:
         print("Something is wrong with the taterbase")
 
+
     # Add the job to the taterbase
     try:
-        d.execute('INSERT INTO jobs (sensorid, query) VALUES ('%s', '%s')') % sensor, stenoquery
+        d.execute(f"INSERT INTO jobs (jobid, sensorid, query) VALUES (,{sensor}, {stenoquery})")
+        db.commit()
+        return 'Added Job'
     except:
         print('Unable to add job')
 
+    return print("I went ahead and added your job mkay.")
+
 # See if I know about this sensor before I try and do something.
 def checksensor(sensor):
+    return sensor
 
 @app.route('/')
 def hello_world():
@@ -133,26 +127,30 @@ def search():
 @app.route('/searchapi', methods=['GET','POST'])
 def searchapi():
     parser = reqparse.RequestParser()
-    parser.add_argument('src', required=True, help="I need a source")
-    parser.add_argument('dst', required=True, help="I need a source")
-    parser.add_argument('srcport', required=True, help="I need a source")
-    parser.add_argument('dstport', required=True, help="I need a source")
-    parser.add_argument('start', required=True, help="I need a source")
-    parser.add_argument('end', required=True, help="I need a source")
-    parser.add_argument('sensor', required=True, help="I need a source")
+    parser.add_argument('src')
+    parser.add_argument('dst')
+    parser.add_argument('srcport')
+    parser.add_argument('dstport')
+    parser.add_argument('start')
+    parser.add_argument('end')
+    parser.add_argument('sensor')
 
 
     args = parser.parse_args()
     if validateip(args['src']) is False:
         return "%s is not a valid IP" % args['src']
+    if validateip(args['dst']) is False:
+        return "%s is not a valid IP" % args['dst']
+
 
     stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (args['end'], args['start'], args['src'], args['dst'], args['srcport'], args['dstport'])
-    sensor = checksensor(args['sensor'])
-
+    sensor = (args['sensor'])
+    print('Adding the Job')
     # Send the query and to the sensors queue
     addjob(sensor,stenoquery)
 
-    return result
+    print('Job Added')
+    return print(f"I added the following query: {stenoquery}")
 
 # Sensor registration
 @app.route('/sensor', methods=['POST'])
@@ -160,9 +158,16 @@ def sensor():
     db = sqlite3.connect(config["sensorDB"])
     d = db.cursor()
 
+    parser = reqparse.RequestParser()
+    parser.add_argument('sensor')
+    parser.add_argument('oldestpcap')
+    parser.add_argument('lastcheckin')
+    args = parser.parse_args()
+
     # Create Sensor Table if it is not there
     try:
         d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
+        d.execute(f"INSERT INT sensors (id, oldestpcap, lastcheckin') VALUES ({args['sensor']}, {args['oldestpcap']}, {args['lastcheckin']})")
     except:
         print('Something is broken')
 
@@ -172,6 +177,7 @@ def sensor():
 # Have something to handle the delivery of the pcap
 @app.route('/uploadjob', methods=['POST'])
 def uploadjob():
+    return 'yo'
 
 if __name__ == '__main__':
     app.run()
