@@ -72,7 +72,7 @@ def converttime(time):
     try:
         return blah
     except:
-        return Falsea
+        return False
 
 def addjob(sensor,stenoquery):
     db = sqlite3.connect(config["sensorDB"])
@@ -80,24 +80,19 @@ def addjob(sensor,stenoquery):
 
     # Create Sensor Table
     try:
-
         # Create Jobs Table
-        d.execute('CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int')
+        d.execute('CREATE TABLE IF NOT EXISTS jobs  (jobid integer PRIMARY KEY AUTOINCREMENT, sensorid text, query text, jobstatus int)')
         db.commit()
         print("I added the table if it wasn't there.")
-    except:
-        print("Something is wrong with the taterbase")
-
-
-    # Add the job to the taterbase
-    try:
-        d.execute(f"INSERT INTO jobs (jobid, sensorid, query) VALUES (,{sensor}, {stenoquery})")
+        d.execute('INSERT INTO jobs (sensorid, query, jobstatus) VALUES (?,?,0)', (sensor, stenoquery))
         db.commit()
-        return 'Added Job'
-    except:
-        print('Unable to add job')
+        print(d.lastrowid)
+        return str(d.lastrowid)
 
-    return print("I went ahead and added your job mkay.")
+    except Exception as err:
+        print("Something is wrong with the taterbase")
+        print('Query Failed: %s\nError: %s' % (thequery, str(err)))
+
 
 # See if I know about this sensor before I try and do something.
 def checksensor(sensor):
@@ -142,15 +137,22 @@ def searchapi():
     if validateip(args['dst']) is False:
         return "%s is not a valid IP" % args['dst']
 
-
     stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (args['end'], args['start'], args['src'], args['dst'], args['srcport'], args['dstport'])
     sensor = (args['sensor'])
     print('Adding the Job')
-    # Send the query and to the sensors queue
-    addjob(sensor,stenoquery)
+    result = addjob(sensor, stenoquery)
+    return "Job ID %s has been added" % result
 
-    print('Job Added')
-    return print(f"I added the following query: {stenoquery}")
+@app.route('/jobs', methods-['GET'])
+def jobs():
+    # Get all the jobs
+    db = sqlite3.connect(config["sensorDB"])
+    d = db.cursor()
+
+    d.execute("SELECT * from jobs")
+    jobsdata = d.fetchall()
+    render_template('jobs.html', jobsdata=jobsdata)
+
 
 # Sensor registration
 @app.route('/sensor', methods=['POST'])
