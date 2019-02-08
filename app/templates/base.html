@@ -1,9 +1,9 @@
 <html>
     <head>
         {% if title %}
-        <title>{{ title }} - microblog</title>
+        <title>{{ title }} - Jobs</title>
         {% else %}
-        <title>microblog</title>
+        <title>Jobs</title>
         {% endif %}
     </head>
     <body>
@@ -11,6 +11,7 @@
             PCAP Agent:
             <a href="/index">Home</a>
             <a href="/search">Search</a>
+            <a href="/jobs">Jobs</a>
         </div>
         <hr>
         {% with messages = get_flashed_messages() %}
@@ -22,6 +23,19 @@
         </ul>
         {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
+        {% block content %}
+        <tr>
+            <td>Job ID</td>
+            <td>Sensor</td>
+            <td>Status</td>
+        </tr>
+        {% for item in jobsdata %}
+        <tr>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[3]}}</td>
+        </tr>
+        {% endfor %}
+        {% endblock %}
     </body>
 </html>

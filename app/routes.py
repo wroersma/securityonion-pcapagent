@@ -143,7 +143,7 @@ def searchapi():
     result = addjob(sensor, stenoquery)
     return "Job ID %s has been added" % result
 
-@app.route('/jobs', methods-['GET'])
+@app.route('/jobs', methods=['GET'])
 def jobs():
     # Get all the jobs
     db = sqlite3.connect(config["sensorDB"])
@@ -151,8 +151,21 @@ def jobs():
 
     d.execute("SELECT * from jobs")
     jobsdata = d.fetchall()
-    render_template('jobs.html', jobsdata=jobsdata)
+    return render_template('jobs.html', jobsdata=jobsdata)
 
+@app.route('/getjob')
+def getjob():
+    # Take a job from the queue
+    db = sqlite3.connect(config["sensorDB"])
+    d = db.cursor()
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('sensor')
+    args = parser.parse_args()
+    sensor = args['sensor']
+    d.execute('SELECT * from jobs WHERE jobstatus=0 and sensorid=? ORDER BY jobid ASC', (sensor,))
+    job = d.fetchone()
+    return jsonify(job)
 
 # Sensor registration
 @app.route('/sensor', methods=['POST'])

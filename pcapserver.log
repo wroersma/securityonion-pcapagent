@@ -566,3 +566,89 @@ INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapa
 INFO:werkzeug: * Restarting with stat
 INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
 INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:04:45] "GET /jobs?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:05:08] "GET /jobs HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:05:08] "GET /jobs?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:05:08] "GET /jobs?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:05:08] "GET /jobs?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:05:08] "GET /jobs?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:05:08] "GET /jobs?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:06:44] "GET /jobs HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:06:44] "GET /jobs?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:06:44] "GET /jobs?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:06:44] "GET /jobs?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:06:44] "GET /jobs?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:06:44] "GET /jobs?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:07:47] "GET /jobs HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:08:53] "GET /jobs HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:09:35] "GET /jobs HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?sensor=blah HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:20] "GET /getjob?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:48] "GET /getjob?sensor=blah HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:48] "GET /getjob?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:48] "GET /getjob?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:48] "GET /getjob?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:48] "GET /getjob?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:49:48] "GET /getjob?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:50:25] "GET /getjob?sensor=blah HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:50:25] "GET /getjob?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:50:25] "GET /getjob?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:50:25] "GET /getjob?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:50:25] "GET /getjob?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:50:25] "GET /getjob?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:51:57] "GET /getjob?sensor=blah HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:51:57] "GET /getjob?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:51:57] "GET /getjob?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:51:57] "GET /getjob?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:51:57] "GET /getjob?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:51:57] "GET /getjob?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?sensor=blah HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 14:08:07] "GET /getjob?sensor=blah HTTP/1.1" 200 -
