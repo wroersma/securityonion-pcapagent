@@ -1,5 +1,9 @@
 import ipaddress
+import json
 from app import app
+from datetime import datetime
+from datetime import timedelta
+from time import mktime
 from flask import jsonify
 from flask import render_template
 from flask import request
@@ -99,23 +103,90 @@ def getconn(connid):
     # Connect to Elastic and get information about the connection.
     esserver = config["esserver"]
     es = Elasticsearch(esserver)
-    search = es.search(index=bro-conn*, doc-type="articles", body={"query": {"match": {"content": connid}}}) )
-    hits = search['hits']['total']:
+    search = es.search(index="*:logstash-*", doc_type="doc", body={"query": {"bool": {"must": { "match": { '_id' : esid }}}}})
+    hits = search['hits']['total']
     if hits > 0:
         for result in search['hits']['hits']:
-            src = result['source']
-            dst = result['dest']
-            srcport = result['sourceport']
-            dstport = result['dstport']
-            time = result['time']
-            duration = result['duration']
-            pcapafter = time - duration - 120
-            pcapbefore = time + duration + 120
-            sensor = result['sensor']
-            stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (pcapbefore, pcapafter, src, dst, srcport, dstport)"
-            return [sensor, stenoquery]
+            # Check for src/dst IP/ports
+            if 'source_ip' in result['_source']:
+                src = result['_source']['source_ip']
+            if 'destination_ip' in result['_source']:
+                dst = result['_source']['destination_ip']
+            if 'source_port' in result['_source']:
+                srcport = result['_source']['source_port']
+            if 'destination_port' in result['_source']:
+                dstport = result['_source']['destination_port']
+
+            # Check if bro_conn log
+            if  'uid' in result['_source']:
+                uid = result['_source']['uid']
+                if isinstance(uid,list):
+                    uid = result['_source']['uid'][0]
+                if uid[0] == "C":
+                  es_type = "bro_conn"
+                  bro_query = uid
+
+            # Check if X509 log
+            elif 'id' in result['_source']:
+                x509id = result['_source']['id']
+                if x509id[0] -- "F":
+                    es_type = "bro_files"
+                    bro_query = x509id
+
+            # Check if Bro files log
+            elif 'fuid' in result['_source']:
+                fuid = result['_source']['fuid']
+                if fuid[0] -- "F":
+                    es_type = "bro_files"
+                    bro_query = fuid
+         
+            # If we didn't match any of the above, we will build a query
+            # from the info that we have (src/dst ip/port)
+            else:
+                es_type = "bro_conn"
+                bro_query = str(src) + " AND " + str(srcport) + " AND " + str(dst) + " AND " + str(dstport)
+
+            # Get timestamp from original result and format it for search
+            estimestamp = datetime.strptime(result['_source']['@timestamp'],"%Y-%m-%dT%H:%M:%S.%fZ")
+            epochtimestamp = mktime(estimestamp.timetuple())
+            st = epochtimestamp - 1800
+            et = epochtimestamp + 1800
+            st_es = st * 1000
+            et_es = et * 1000
+
+            # If we have a Bro Files log, lets get set to look for a connection log
+            if result['_source']['event_type'] == "bro_files":
+                es_type = "bro_conn"
+                bro_query = json.dumps(result['_source']['uid']).strip('[').strip(']').strip('\"')
+
+            # Set query string for second search,
+            query_string = 'event_type:' + str(es_type) + ' AND ' + str(bro_query)
+            query = '{"query": {"bool": {"must": [{"query_string": {"query": "' + str(query_string) + '","analyze_wildcard": true}},{"range": {"@timestamp":{ "gte": "' + str(st_es) + '", "lte": "' + str(et_es) + '", "format": "epoch_millis"}}}]}}}'
+            # Search for a Bro connection log
+            search = es.search(index="*:logstash-*", doc_type="doc", body=query)
+            hits = search['hits']['total']
+            if hits > 0:
+                for result in search['hits']['hits']:
+                    # Build the rest of the query for Steno
+                    src = result['_source']['source_ip']
+                    dst = result['_source']['destination_ip']
+                    srcport = result['_source']['source_port']
+                    dstport = result['_source']['destination_port']
+                    duration = result['_source']['duration']
+                    estimestamp = datetime.strptime(result['_source']['@timestamp'],"%Y-%m-%dT%H:%M:%S.%fZ")
+                    epochtimestamp = mktime(estimestamp.timetuple())
+                    epochminus = int(epochtimestamp - int(duration) - 120)
+                    epochplus = int(epochtimestamp + int(duration) + 120)
+                    pcapbefore = datetime.utcfromtimestamp(epochminus).strftime('%Y-%m-%dT%H:%M:%S:%fZ')
+                    pcapafter = datetime.utcfromtimestamp(epochminus).strftime('%Y-%m-%dT%H:%M:%S:%fZ')
+                    sensor = result['_source']['sensor_name']
+                    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (pcapbefore, pcapafter, src, dst, srcport, dstport)
+                    return [sensor, stenoquery]
+                    #print sensor,stenoquery
+            else:
+               print("No hits for second query!")
     else:
-        print('No Results')
+        print('No hits for first query')
 
 # See if I know about this sensor before I try and do something.
 def checksensor(sensor):
