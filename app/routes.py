@@ -6,6 +6,7 @@ from flask import request
 from app.forms import SearchForm
 from flask_restful import reqparse
 import sqlite3
+from elasticsearch import Elasticsearch
 
 import logging, sys, json, os, glob, time, datetime
 
@@ -94,6 +95,28 @@ def addjob(sensor,stenoquery):
         print('Query Failed: %s\nError: %s' % (thequery, str(err)))
 
 
+def getconn(connid):
+    # Connect to Elastic and get information about the connection.
+    esserver = config["esserver"]
+    es = Elasticsearch(esserver)
+    search = es.search(index=bro-conn*, doc-type="articles", body={"query": {"match": {"content": connid}}}) )
+    hits = search['hits']['total']:
+    if hits > 0:
+        for result in search['hits']['hits']:
+            src = result['source']
+            dst = result['dest']
+            srcport = result['sourceport']
+            dstport = result['dstport']
+            time = result['time']
+            duration = result['duration']
+            pcapafter = time - duration - 120
+            pcapbefore = time + duration + 120
+            sensor = result['sensor']
+            stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (pcapbefore, pcapafter, src, dst, srcport, dstport)"
+            return [sensor, stenoquery]
+    else:
+        print('No Results')
+
 # See if I know about this sensor before I try and do something.
 def checksensor(sensor):
     return sensor
@@ -166,6 +189,20 @@ def getjob():
     d.execute('SELECT * from jobs WHERE jobstatus=0 and sensorid=? ORDER BY jobid ASC', (sensor,))
     job = d.fetchone()
     return jsonify(job)
+
+@app.route('/updatejob')
+def updatejob():
+    # Update the status
+    db = sqlite3.connect(config["sensorDB"])
+    d = db.cursor()
+    parser = reqparse.RequestParser()
+    parser.add_argument('jobid')
+    parser.add_argument('jobstatus')
+    args = parser.parse_args()
+    jobid = args['jobid']
+    jobstatus = args['jobstatus']
+
+    d.execute('UPDATE jobs SET jobstatus=? WHERE jobid=?', (jobstatus,jobid))
 
 # Sensor registration
 @app.route('/sensor', methods=['POST'])

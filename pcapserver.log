@@ -652,3 +652,15 @@ INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 13:53:41] "GET /getjob?__debugger__=yes
 INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
 INFO:werkzeug: * Restarting with stat
 INFO:werkzeug:127.0.0.1 - - [08/Feb/2019 14:08:07] "GET /getjob?sensor=blah HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
