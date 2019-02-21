@@ -3,5 +3,6 @@
   "logFile": "pcapserver.log",
   "logLevel": "logging.debug",
   "pcapPath": ".",
+  "eserver": "http://192.168.2.2:9100",
   "sensorDB": "pcapmaster.db"
 }

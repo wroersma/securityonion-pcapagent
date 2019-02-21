@@ -664,3 +664,21 @@ INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapa
 INFO:werkzeug: * Restarting with stat
 INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
 INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [21/Feb/2019 11:48:21] "GET /jobs HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Feb/2019 11:56:00] "GET /getjob?sensor=blah HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [21/Feb/2019 12:45:21] "GET /getjob?sensor=blah HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Feb/2019 12:45:54] "GET /searchapi?sensor=blah&src=1.2.3.4&dst=2.3.4.5&srcport=234&dstport=1234&start=234235&end=3244324 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [21/Feb/2019 12:47:00] "GET /getjob?sensor=blah HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [21/Feb/2019 12:53:35] "GET /getjob?sensor=blah HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/Users/mreeves/Projects/securityonion-pcapagent/app/routes.py', reloading
+INFO:werkzeug: * Restarting with stat

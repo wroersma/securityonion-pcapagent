@@ -259,7 +259,7 @@ def getjob():
     sensor = args['sensor']
     d.execute('SELECT * from jobs WHERE jobstatus=0 and sensorid=? ORDER BY jobid ASC', (sensor,))
     job = d.fetchone()
-    return jsonify(job)
+    return jsonify(jobid=job[0], sensor=job[1], query=job[2], status=job[3])
 
 @app.route('/updatejob')
 def updatejob():

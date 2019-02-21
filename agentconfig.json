@@ -1,0 +1,8 @@
+{
+  "master": "http://localhost:5000",
+  "logFile": "pcapagent.log",
+  "logLevel": "logging.debug",
+  "pcapPath": ".",
+  "sensorname": "blah",
+  "sensorDB": "pcapmaster.db"
+}
