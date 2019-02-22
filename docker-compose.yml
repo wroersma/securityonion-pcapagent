@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  securityonion-pcapagent:
+    image: securityonion-pcapagent
+    container_name: securityonion-pcapagent
+    ports:
+      - 5000:5000
+    networks:
+      - sopcapagent
+    env_file:
+      - ./config-file.env
+
+networks:
+  sopcapagent:
+    driver: bridge

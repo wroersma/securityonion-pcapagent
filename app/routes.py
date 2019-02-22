@@ -1,3 +1,5 @@
+"""Main Flask routes handling library."""
+# coding=utf-8
 import ipaddress
 import ujson
 import logging
@@ -15,18 +17,15 @@ from flask import request
 from flask_restful import reqparse
 
 from app import app, db, d
-
 from app.forms import SearchForm
 
 with open('config.json', 'r') as cfg:
     config = ujson.load(cfg)
 
-logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
+#logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
 
 # Create the database to store clients
 # commented out to import from global app
-#db = sqlite3.connect(config["sensorDB"])
-#d = db.cursor()
 
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
@@ -111,7 +110,7 @@ def addjob(sensor,stenoquery):
 
 def getconn(connid):
     # Connect to Elastic and get information about the connection.
-    esserver = config["esserver"]
+    esserver = app.config["esserver"]
     es = Elasticsearch(esserver)
     search = es.search(index="*:logstash-*",
                        doc_type="doc", body={"query": {"bool": {"must": {"match": {'_id': esid}}}}})
@@ -216,6 +215,11 @@ def hello_world():
     return 'Hello World!'
 
 
+@app.route('/index')
+def index_page():
+    return render_template('index.html')
+
+
 @app.route('/pcapstatus')
 def get_status():
     return get_oldest_pcapfile()
@@ -263,7 +267,6 @@ def jobs():
     # Get all the jobs
     db = sqlite3.connect(config["sensorDB"])
     d = db.cursor()
-
     d.execute("SELECT * from jobs")
     jobsdata = d.fetchall()
     return render_template('jobs.html', jobsdata=jobsdata)
@@ -274,7 +277,6 @@ def getjob():
     """Take a job from the queue"""
     db = sqlite3.connect(config["sensorDB"])
     d = db.cursor()
-
     parser = reqparse.RequestParser()
     parser.add_argument('sensor')
     args = parser.parse_args()
