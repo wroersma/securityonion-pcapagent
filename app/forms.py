@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateTimeField
 from wtforms.validators import DataRequired
 
+
 class SearchForm(FlaskForm):
     src = StringField('src', validators=[DataRequired()])
     dst = StringField('dst', validators=[DataRequired()])

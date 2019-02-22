@@ -1,0 +1,12 @@
+PyYAML
+click
+elasticsearch
+Flask
+Flask-Babel
+Flask-Bootstrap
+flask_restful
+requests
+ujson
+udatetime
+python-dotenv
+Flask-WTF

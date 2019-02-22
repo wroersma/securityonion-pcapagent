@@ -4,6 +4,18 @@ Requires Python 3.7
 
 PCAP Flow
 
+## How to install and run from Python
+
+
+    pip install -r requiremnets.txt
+    export FLASK_APP=pcapagent.py.py
+    export FLASK_DEBUG=1
+    flask run
+
+## How to run from docker
+
+    docker build . -t securityonion-pcapagent
+    sudo docker-compose up -d
 
 ###PCAP Agent
 

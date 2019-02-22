@@ -1,28 +1,32 @@
 import ipaddress
-import json
-from app import app
+import ujson
+import logging
+import os
+import time
+import datetime
+import sqlite3
+
+from elasticsearch import Elasticsearch
 from datetime import datetime
-from datetime import timedelta
 from time import mktime
 from flask import jsonify
 from flask import render_template
 from flask import request
-from app.forms import SearchForm
 from flask_restful import reqparse
-import sqlite3
-from elasticsearch import Elasticsearch
 
-import logging, sys, json, os, glob, time, datetime
+from app import app, db, d
 
+from app.forms import SearchForm
 
 with open('config.json', 'r') as cfg:
-    config = json.load(cfg)
+    config = ujson.load(cfg)
 
 logging.basicConfig(filename=config["logFile"], level=logging.DEBUG)
 
 # Create the database to store clients
-db = sqlite3.connect(config["sensorDB"])
-d = db.cursor()
+# commented out to import from global app
+#db = sqlite3.connect(config["sensorDB"])
+#d = db.cursor()
 
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
@@ -32,12 +36,14 @@ intervals = (
     ('seconds', 1),
     )
 
+
 def check_avail(pcaptime):
     oldest = min(os.listdir(config["pcapPath"]), key=os.path.getctime)
     if oldest < pcaptime:
         return "BAD"
     else:
         return "GOOD"
+
 
 def display_time(seconds, granularity=2):
     result = []
@@ -50,6 +56,7 @@ def display_time(seconds, granularity=2):
                 name = name.rstrip('s')
             result.append("{} {}".format(value, name))
     return ', '.join(result[:granularity])
+
 
 def get_oldest_pcapfile():
     with app.app_context():
@@ -66,6 +73,7 @@ def get_oldest_pcapfile():
 
     return results
 
+
 def validateip(ip):
     try:
         result = ipaddress.ip_address(ip)
@@ -73,11 +81,13 @@ def validateip(ip):
     except ValueError:
         return False
 
+
 def converttime(time):
     try:
         return blah
     except:
         return False
+
 
 def addjob(sensor,stenoquery):
     db = sqlite3.connect(config["sensorDB"])
@@ -103,7 +113,8 @@ def getconn(connid):
     # Connect to Elastic and get information about the connection.
     esserver = config["esserver"]
     es = Elasticsearch(esserver)
-    search = es.search(index="*:logstash-*", doc_type="doc", body={"query": {"bool": {"must": { "match": { '_id' : esid }}}}})
+    search = es.search(index="*:logstash-*",
+                       doc_type="doc", body={"query": {"bool": {"must": {"match": {'_id': esid}}}}})
     hits = search['hits']['total']
     if hits > 0:
         for result in search['hits']['hits']:
@@ -118,9 +129,9 @@ def getconn(connid):
                 dstport = result['_source']['destination_port']
 
             # Check if bro_conn log
-            if  'uid' in result['_source']:
+            if 'uid' in result['_source']:
                 uid = result['_source']['uid']
-                if isinstance(uid,list):
+                if isinstance(uid, list):
                     uid = result['_source']['uid'][0]
                 if uid[0] == "C":
                   es_type = "bro_conn"
@@ -147,7 +158,7 @@ def getconn(connid):
                 bro_query = str(src) + " AND " + str(srcport) + " AND " + str(dst) + " AND " + str(dstport)
 
             # Get timestamp from original result and format it for search
-            estimestamp = datetime.strptime(result['_source']['@timestamp'],"%Y-%m-%dT%H:%M:%S.%fZ")
+            estimestamp = datetime.strptime(result['_source']['@timestamp'], "%Y-%m-%dT%H:%M:%S.%fZ")
             epochtimestamp = mktime(estimestamp.timetuple())
             st = epochtimestamp - 1800
             et = epochtimestamp + 1800
@@ -157,8 +168,10 @@ def getconn(connid):
             # If we have a Bro Files log, lets get set to look for a connection log
             if result['_source']['event_type'] == "bro_files":
                 es_type = "bro_conn"
-                bro_query = json.dumps(result['_source']['uid']).strip('[').strip(']').strip('\"')
-
+                bro_query = ujson.dumps(result['_source']['uid']).strip('[').strip(']').strip('\"')
+            else:
+                es_type = None
+                bro_query = None
             # Set query string for second search,
             query_string = 'event_type:' + str(es_type) + ' AND ' + str(bro_query)
             query = '{"query": {"bool": {"must": [{"query_string": {"query": "' + str(query_string) + '","analyze_wildcard": true}},{"range": {"@timestamp":{ "gte": "' + str(st_es) + '", "lte": "' + str(et_es) + '", "format": "epoch_millis"}}}]}}}'
@@ -173,14 +186,19 @@ def getconn(connid):
                     srcport = result['_source']['source_port']
                     dstport = result['_source']['destination_port']
                     duration = result['_source']['duration']
-                    estimestamp = datetime.strptime(result['_source']['@timestamp'],"%Y-%m-%dT%H:%M:%S.%fZ")
+                    estimestamp = datetime.strptime(result['_source']['@timestamp'], "%Y-%m-%dT%H:%M:%S.%fZ")
                     epochtimestamp = mktime(estimestamp.timetuple())
                     epochminus = int(epochtimestamp - int(duration) - 120)
                     epochplus = int(epochtimestamp + int(duration) + 120)
                     pcapbefore = datetime.utcfromtimestamp(epochminus).strftime('%Y-%m-%dT%H:%M:%S:%fZ')
                     pcapafter = datetime.utcfromtimestamp(epochminus).strftime('%Y-%m-%dT%H:%M:%S:%fZ')
                     sensor = result['_source']['sensor_name']
-                    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (pcapbefore, pcapafter, src, dst, srcport, dstport)
+                    stenoquery = "before %s and after %s and host %s and host %s and port %s and port %s" % (pcapbefore,
+                                                                                                             pcapafter,
+                                                                                                             src,
+                                                                                                             dst,
+                                                                                                             srcport,
+                                                                                                             dstport)
                     return [sensor, stenoquery]
                     #print sensor,stenoquery
             else:
@@ -188,9 +206,10 @@ def getconn(connid):
     else:
         print('No hits for first query')
 
-# See if I know about this sensor before I try and do something.
+#TODO Check sensor before trying to do something.
 def checksensor(sensor):
     return sensor
+
 
 @app.route('/')
 def hello_world():
@@ -201,19 +220,22 @@ def hello_world():
 def get_status():
     return get_oldest_pcapfile()
 
-@app.route('/search', methods=['GET','POST'])
-def search():
-    form = SearchForm()
-    if form.validate_on_submit():
-        src = string(request.args[src])
-        return '''<h1>The Source is {}</h1>'''.format(src)
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        form = SearchForm(request.form)
+        if form.validate_on_submit():
+            src = string(request.args[src])
+            return '''<h1>The Source is {}</h1>'''.format(src)
+    elif request.method == 'GET':
+        form = SearchForm()
     return render_template('search.html', title='Search Pcap', form=form)
+
 
 # Give it a conn id and let it do its thing.
 @app.route('/searchbycid')
-
-@app.route('/searchapi', methods=['GET','POST'])
+@app.route('/searchapi', methods=['GET', 'POST'])
 def searchapi():
     parser = reqparse.RequestParser()
     parser.add_argument('src')
@@ -223,8 +245,6 @@ def searchapi():
     parser.add_argument('start')
     parser.add_argument('end')
     parser.add_argument('sensor')
-
-
     args = parser.parse_args()
     if validateip(args['src']) is False:
         return "%s is not a valid IP" % args['src']
@@ -237,6 +257,7 @@ def searchapi():
     result = addjob(sensor, stenoquery)
     return "Job ID %s has been added" % result
 
+
 @app.route('/jobs', methods=['GET'])
 def jobs():
     # Get all the jobs
@@ -247,9 +268,10 @@ def jobs():
     jobsdata = d.fetchall()
     return render_template('jobs.html', jobsdata=jobsdata)
 
+
 @app.route('/getjob')
 def getjob():
-    # Take a job from the queue
+    """Take a job from the queue"""
     db = sqlite3.connect(config["sensorDB"])
     d = db.cursor()
 
@@ -261,9 +283,10 @@ def getjob():
     job = d.fetchone()
     return jsonify(jobid=job[0], sensor=job[1], query=job[2], status=job[3])
 
+
 @app.route('/updatejob')
 def updatejob():
-    # Update the status
+    """Update job page route."""
     db = sqlite3.connect(config["sensorDB"])
     d = db.cursor()
     parser = reqparse.RequestParser()
@@ -275,12 +298,12 @@ def updatejob():
 
     d.execute('UPDATE jobs SET jobstatus=? WHERE jobid=?', (jobstatus,jobid))
 
-# Sensor registration
+
 @app.route('/sensor', methods=['POST'])
 def sensor():
+    """Sensor registration page route."""
     db = sqlite3.connect(config["sensorDB"])
     d = db.cursor()
-
     parser = reqparse.RequestParser()
     parser.add_argument('sensor')
     parser.add_argument('oldestpcap')
@@ -290,17 +313,14 @@ def sensor():
     # Create Sensor Table if it is not there
     try:
         d.execute('CREATE TABLE IF NOT EXISTS sensors (id text PRIMARY KEY, oldestpcap int, lastcheckin int')
-        d.execute(f"INSERT INT sensors (id, oldestpcap, lastcheckin') VALUES ({args['sensor']}, {args['oldestpcap']}, {args['lastcheckin']})")
+        d.execute(f"INSERT INT sensors (id, oldestpcap, lastcheckin') VALUES ({args['sensor']}, "
+                  f"{args['oldestpcap']}, {args['lastcheckin']})")
     except:
         print('Something is broken')
 
 
-
-
-# Have something to handle the delivery of the pcap
+#TODO Have something to handle the delivery of the pcap
 @app.route('/uploadjob', methods=['POST'])
 def uploadjob():
     return 'yo'
 
-if __name__ == '__main__':
-    app.run()
